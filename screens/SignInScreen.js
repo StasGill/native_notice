@@ -3,88 +3,99 @@ import {
   Text,
   View,
   StyleSheet,
-  SafeAreaView,
-  TextInput,
-  Button,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Buttons } from "../components/form/Buttons";
 import { Heading } from "../components/form/Heading";
-import { useDispatch } from "react-redux";
-import { signin } from "../actions/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { signInValidation } from "../helpers/signInValidation";
+import { signIn } from "../actions/auth";
+import { Icons } from "../components/tabs/Icons";
+import { Inputs } from "../components/form/Inputs";
 
-const registrationObject = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
+const signInMock = {
+  email: "stan@mail.com",
+  password: "1234",
 };
 
 export function SignInScreen() {
-  const [registerData, setRegisterData] = useState({ ...registrationObject });
+  const [signInData, setRegisterData] = useState({ ...signInMock });
+  const { isLoading } = useSelector((state) => state.user);
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const handleChange = (e) => {
-    console.log(e);
-    // setRegisterData({ ...registerData, [e.target.name]: e.target.value });
-  };
-
-  const submit = () => {
-    alert("work");
-  };
-
   const handleLogIn = (e) => {
-    // e.preventDefault();
-    dispatch(signin(registerData, navigation));
-    // setRegisterData({ ...registrationObject });
+    const isValid = signInValidation(signInData);
+    isValid && dispatch(signIn(signInData, navigation));
   };
 
   return (
-    <View style={styles.container}>
-      <Heading title={"Sign In"} />
-      <View style={styles.inputContainer}>
-        <TextInput
-          onChangeText={(e) => setRegisterData({ ...registerData, email: e })}
-          value={registerData.email}
-          placeholder="Email"
-          style={styles.input}
+    <View style={styles.mainContainer}>
+      <View style={styles.header}>
+        <Text style={styles.logo}>Notice</Text>
+        <Icons color="white" type="Logo" />
+      </View>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.margin}>
+          <Heading title={"Sign In"} />
+        </View>
+        <Inputs
+          onChange={setRegisterData}
+          data={signInData}
           name="email"
-          autoCapitalize="none"
+          placeholder="Email"
+          value={signInData.email}
         />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          onChangeText={(e) =>
-            setRegisterData({ ...registerData, password: e })
-          }
-          value={registerData.password}
+        <Inputs
+          onChange={setRegisterData}
+          data={signInData}
+          name="password"
           placeholder="Password"
-          style={styles.input}
-          autoCapitalize="none"
+          value={signInData.password}
         />
-      </View>
-      <Buttons title={"Sign In"} onPress={handleLogIn} />
-      <Text>If you don't have an account please </Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("SignUp")}
-      >
-        <Text style={styles.link}>Sign Up</Text>
-      </TouchableOpacity>
+        <Buttons
+          title={"Sign In"}
+          onPress={handleLogIn}
+          isLoading={isLoading}
+        />
+        <Text>If you don't have an account please </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("SignUp")}
+        >
+          <Text style={styles.link}>Sign Up</Text>
+        </TouchableOpacity>
+      </SafeAreaView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#00A3FF",
+  },
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: "white",
   },
+  margin: { marginTop: 100 },
+  header: {
+    height: 150,
+    width: 147,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "center",
+    paddingTop: 40,
+  },
+  logo: { color: "white", fontSize: 35, fontWeight: "bold" },
   inputContainer: {
     width: "80%",
     padding: 5,
@@ -94,9 +105,6 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 20,
-  },
-  button: {
-    // marginBottom: -3,
   },
   link: {
     color: "#00A3FF",

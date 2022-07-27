@@ -1,10 +1,50 @@
-import React from "react";
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  View,
+  Animated,
+  Easing,
+} from "react-native";
+import { Icons } from "../tabs/Icons";
 
-export const Buttons = ({ title, onPress }) => {
+export const Buttons = ({ title, onPress, isLoading, isDisabled }) => {
+  const [rotateValueHolder] = useState(new Animated.Value(0));
+
+  const disableCheck = isDisabled && { backgroundColor: "grey" };
+
+  const startImageRotateFunction = () => {
+    Animated.loop(
+      Animated.timing(rotateValueHolder, {
+        toValue: 30,
+        duration: 6000,
+        easing: Easing.linear,
+        useNativeDriver: false,
+      })
+    ).start();
+  };
+
+  useEffect(() => {
+    startImageRotateFunction();
+  }, []);
+
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={{ ...styles.container, ...disableCheck }}
+      onPress={onPress}
+    >
       <Text style={styles.text}>{title}</Text>
+      {isLoading && (
+        <Animated.View
+          style={{
+            ...styles.loadingIcon,
+            transform: [{ rotate: rotateValueHolder }],
+          }}
+        >
+          <Icons color="white" type="Loading" />
+        </Animated.View>
+      )}
     </TouchableOpacity>
   );
 };
@@ -23,5 +63,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     color: "white",
+  },
+  loadingIcon: {
+    width: 28,
+    height: 28,
+    position: "absolute",
+    right: 20,
+    top: 14,
   },
 });

@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Buttons } from "../components/form/Buttons";
 import { Heading } from "../components/form/Heading";
 import { signup } from "../actions/auth";
 import { useDispatch } from "react-redux";
+import { Inputs } from "../components/form/Inputs";
+import { Icons } from "../components/tabs/Icons";
 
 const registrationObject = {
   firstName: "",
@@ -30,76 +26,79 @@ export function SignUpScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      <Heading title={"Sign Up"} />
-      <View style={styles.inputContainer}>
-        <TextInput
-          onChangeText={(e) => setRegisterData({ ...registerData, name: e })}
-          value={registerData.name}
+    <View style={styles.mainContainer}>
+      <View style={styles.header}>
+        <Text style={styles.logo}>Notice</Text>
+        <Icons color="white" type="Logo" />
+      </View>
+      <View style={styles.container}>
+        <Heading title={"Sign Up"} />
+        <Inputs
+          onChange={setRegisterData}
+          data={registerData}
+          name="firstName"
           placeholder="Name"
-          style={styles.input}
-          onBlur={() => console.log("blur")}
+          value={registerData.firstName}
         />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          onChangeText={(e) => setRegisterData({ ...registerData, email: e })}
-          value={registerData.email}
+        <Inputs
+          onChange={setRegisterData}
+          data={registerData}
+          name="email"
           placeholder="Email"
-          style={styles.input}
-          autoCapitalize="none"
+          value={registerData.email}
         />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          onChangeText={(e) =>
-            setRegisterData({ ...registerData, password: e })
-          }
-          value={registerData.password}
+        <Inputs
+          onChange={setRegisterData}
+          data={registerData}
+          name="password"
           placeholder="Password"
-          style={styles.input}
+          value={registerData.password}
         />
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          onChangeText={(e) =>
-            setRegisterData({ ...registerData, confirmPassword: e })
-          }
-          value={registerData.confirmPassword}
+        <Inputs
+          onChange={setRegisterData}
+          data={registerData}
+          name="confirmPassword"
           placeholder="Repeat Password"
-          style={styles.input}
+          value={registerData.confirmPassword}
         />
+        <Buttons title={"Sign Up"} onPress={handleSignUp} />
+        <Text>If you already have an account please </Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("SignIn")}
+        >
+          <Text style={styles.link}>Sign In</Text>
+        </TouchableOpacity>
       </View>
-      <Buttons title={"Sign Up"} onPress={handleSignUp} />
-      <Text>If you already have an account please </Text>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("SignIn")}
-      >
-        <Text style={styles.link}>Sign In</Text>
-      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    backgroundColor: "#00A3FF",
+  },
   container: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
-    padding: 10,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: "white",
+    paddingTop: 40,
   },
-  inputContainer: {
-    width: "80%",
-    padding: 5,
-    borderBottomColor: "grey",
-    borderBottomWidth: 1,
-    marginBottom: 30,
+  margin: { marginTop: 100 },
+  header: {
+    height: 150,
+    width: 147,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignSelf: "center",
+    paddingTop: 40,
   },
-  input: {
-    fontSize: 20,
-  },
-  button: {},
+  logo: { color: "white", fontSize: 35, fontWeight: "bold" },
   link: {
     color: "#00A3FF",
   },

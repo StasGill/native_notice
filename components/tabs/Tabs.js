@@ -12,8 +12,36 @@ function HomeScreen() {
   return (
     <Stack.Navigator initialRouteName="Lists">
       <>
-        <Stack.Screen name="Lists" component={ListsScreen} />
-        <Stack.Screen name="Tasks" component={TasksScreen} />
+        <Stack.Screen
+          name="Lists"
+          component={ListsScreen}
+          options={{
+            title: "Lists",
+            headerStyle: {
+              backgroundColor: "#00A3FF",
+              height: 82,
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Tasks"
+          component={TasksScreen}
+          options={{
+            title: "Lists",
+            headerStyle: {
+              backgroundColor: "#00A3FF",
+              height: 82,
+            },
+            headerTintColor: "#fff",
+            headerTitleStyle: {
+              fontWeight: "bold",
+            },
+          }}
+        />
       </>
     </Stack.Navigator>
   );

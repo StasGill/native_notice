@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import Svg, { Path } from "react-native-svg";
+import Svg, { Path, G, Circle } from "react-native-svg";
 
 export const Icons = ({ color, type }) => {
   if (type === "Home") {
@@ -58,6 +58,32 @@ export const Icons = ({ color, type }) => {
           />
         </Svg>
       </View>
+    );
+  }
+  if (type === "Loading") {
+    return (
+      <Svg width="30px" height="30px" viewBox="0 0 30 30" fill={color}>
+        <G>
+          <Circle cx="13.792" cy="3.082" r="3.082" />
+          <Circle cx="13.792" cy="24.501" r="1.849" />
+          <Circle cx="6.219" cy="6.218" r="2.774" />
+          <Circle cx="21.365" cy="21.363" r="1.541" />
+          <Circle cx="3.082" cy="13.792" r="2.465" />
+          <Circle cx="24.501" cy="13.791" r="1.232" />
+          <Path
+            d="M4.694,19.84c-0.843,0.843-0.843,2.207,0,3.05c0.842,0.843,2.208,0.843,3.05,0c0.843-0.843,0.843-2.207,0-3.05
+			C6.902,18.996,5.537,18.988,4.694,19.84z"
+          />
+          <Circle cx="21.364" cy="6.218" r="0.924" />
+        </G>
+      </Svg>
+    );
+  }
+  if (type === "Logo") {
+    return (
+      <Svg width="30px" height="30px" viewBox="0 0 30 30" fill={color}>
+        <Path d="M0 32c4-12 14.469-32 32-32-8.219 6.594-12 22-18 22s-6 0-6 0l-6 10h-2z"></Path>
+      </Svg>
     );
   }
 };

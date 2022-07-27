@@ -3,9 +3,9 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
-import MainScreen from "./screens/MainScreen";
 import reducers from "./reducers";
 import { NavigationContainer } from "@react-navigation/native";
+import MainStack from "./stack/MainStack";
 
 const store = createStore(
   reducers,
@@ -16,7 +16,7 @@ function App() {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <MainScreen />
+        <MainStack />
       </Provider>
     </NavigationContainer>
   );

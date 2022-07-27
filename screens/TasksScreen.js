@@ -3,9 +3,9 @@ import { TaskItem } from "../components/TaskItem";
 
 export function TasksScreen({ route }) {
   const { color, title, tasks } = route.params;
-  //   console.log(route.params);
+
   return (
-    <View style={{ ...styles.container, backgroundColor: `${color}70` }}>
+    <View style={{ ...styles.container, backgroundColor: `${color}30` }}>
       <View style={styles.textContainer}>
         <Text style={styles.header}>{title}</Text>
         <Text style={styles.header}>+</Text>

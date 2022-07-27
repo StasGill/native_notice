@@ -8,7 +8,7 @@ const url = "https://notice-a.herokuapp.com/";
 const API = axios.create({ baseURL: url });
 
 API.interceptors.request.use(async (req) => {
-  const data = await getValueFor("profile");
+  const data = await getValueFor("auth");
   if (data) {
     req.headers.Authorization = `Bearer ${JSON.parse(data)?.token}`;
   }

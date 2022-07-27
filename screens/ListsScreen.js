@@ -47,17 +47,4 @@ export function ListsScreen() {
       </View>
     </SafeAreaView>
   );
-
-  // return (
-  //   <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-  //     <Text>Task!</Text>
-  //     <Button
-  //       title="To desc!!!"
-  //       onPress={() => navigation.navigate("Detail")}
-  //     />
-  //     <TouchableOpacity onPress={() => navigation.navigate("Detail")}>
-  //       <Text>To desc!</Text>
-  //     </TouchableOpacity>
-  //   </View>
-  // );
 }

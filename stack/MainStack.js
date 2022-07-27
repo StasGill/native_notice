@@ -1,16 +1,25 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
-import { HomeScreen, TasksScreen } from "./ListsScreen";
-import { SignInScreen } from "./SignInScreen";
-import { SettingsScreen } from "./SettingsScreen";
-import { SignUpScreen } from "./SignUpScreen";
-import { useSelector } from "react-redux";
+import { SignInScreen } from "../screens/SignInScreen";
+import { SignUpScreen } from "../screens/SignUpScreen";
+import { useDispatch, useSelector } from "react-redux";
 import Tabs from "../components/tabs/Tabs";
+import { getValueFor, save } from "../helpers/secureStore";
+import { useEffect } from "react";
+import { localSignIn } from "../actions/auth";
 
 const Stack = createStackNavigator();
 
-export default function MainScreen() {
+export default function MainStack() {
   const { authData } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    getValueFor("auth").then((data) => {
+      const parsedData = JSON.parse(data);
+
+      dispatch(localSignIn(parsedData));
+    });
+  }, [dispatch]);
 
   return (
     <Stack.Navigator

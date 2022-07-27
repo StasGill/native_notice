@@ -12,6 +12,7 @@ import {
   CURRENT_DRAWER,
   SHARE_DRAWER,
   SET_SHARE,
+  END_LOADING,
 } from "../constants/constants";
 
 const userReducer = (
@@ -31,6 +32,8 @@ const userReducer = (
   switch (action.type) {
     case START_LOADING:
       return { ...state, isLoading: true };
+    case END_LOADING:
+      return { ...state, isLoading: false };
     case ADD_DRAWER:
       return { ...state, addDrawer: !state.addDrawer };
     case EDIT_DRAWER:

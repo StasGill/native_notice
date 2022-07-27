@@ -4,7 +4,7 @@ import { save } from "../helpers/localStorage";
 const authReducer = (state = { authData: null, error: "" }, action) => {
   switch (action.type) {
     case AUTH:
-      save("profile", JSON.stringify({ ...action?.data }));
+      // save("profile", JSON.stringify({ ...action?.data }));
       return { ...state, authData: action?.data };
     case LOGOUT:
       save("profile", "");
