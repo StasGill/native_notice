@@ -5,13 +5,16 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Buttons } from "../components/form/Buttons";
 import { Heading } from "../components/form/Heading";
 import { useDispatch, useSelector } from "react-redux";
 import { signInValidation } from "../helpers/signInValidation";
-import { signIn } from "../actions/auth";
+import { signIn } from "../store/actions/auth";
 import { Icons } from "../components/tabs/Icons";
 import { Inputs } from "../components/form/Inputs";
 
@@ -32,13 +35,18 @@ export function SignInScreen() {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.mainContainer}
+    >
+      <StatusBar animated={true} backgroundColor="#00A3FF" hidden={false} />
+      {/* <View style={styles.mainContainer}> */}
       <View style={styles.header}>
         <Text style={styles.logo}>Notice</Text>
         <Icons color="white" type="Logo" />
       </View>
       <SafeAreaView style={styles.container}>
-        <View style={styles.margin}>
+        <View>
           <Heading title={"Sign In"} />
         </View>
         <Inputs
@@ -68,7 +76,8 @@ export function SignInScreen() {
           <Text style={styles.link}>Sign Up</Text>
         </TouchableOpacity>
       </SafeAreaView>
-    </View>
+      {/* </View> */}
+    </KeyboardAvoidingView>
   );
 }
 
@@ -80,6 +89,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "white",
@@ -89,11 +99,10 @@ const styles = StyleSheet.create({
     height: 150,
     width: 147,
     alignItems: "center",
-    justifyContent: "flex-end",
     flexDirection: "row",
     justifyContent: "space-between",
     alignSelf: "center",
-    paddingTop: 40,
+    // paddingTop: 10,
   },
   logo: { color: "white", fontSize: 35, fontWeight: "bold" },
   inputContainer: {

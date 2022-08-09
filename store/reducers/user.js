@@ -26,6 +26,7 @@ const userReducer = (
     currentList: { title: "", color: "", _id: "" },
     currentTasks: {},
     shareId: "",
+    currentListId: "",
   },
   action
 ) => {
@@ -37,7 +38,11 @@ const userReducer = (
     case ADD_DRAWER:
       return { ...state, addDrawer: !state.addDrawer };
     case EDIT_DRAWER:
-      return { ...state, editDrawer: !state.editDrawer };
+      return {
+        ...state,
+        editDrawer: !state.editDrawer,
+        currentListId: action?.id,
+      };
     case CURRENT_DRAWER:
       return { ...state, currentTaskDrawer: !state.currentTaskDrawer };
     case SHARE_DRAWER:
@@ -50,7 +55,7 @@ const userReducer = (
       return {
         ...state,
         lists: action?.data,
-        currentList: action?.currentList,
+        currentList: state.currentList,
       };
     case ADD_LIST:
       return { ...state, lists: action?.data };

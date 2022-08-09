@@ -1,6 +1,13 @@
 import { TextInput, View, StyleSheet } from "react-native";
 
-export const Inputs = ({ onChange, data, name, placeholder, value }) => {
+export const Inputs = ({
+  onChange,
+  data,
+  name,
+  placeholder,
+  value,
+  autoFocus,
+}) => {
   return (
     <View style={styles.inputContainer}>
       <TextInput
@@ -10,6 +17,7 @@ export const Inputs = ({ onChange, data, name, placeholder, value }) => {
         style={styles.input}
         name={name}
         autoCapitalize="none"
+        autoFocus={autoFocus}
       />
     </View>
   );
@@ -21,7 +29,7 @@ const styles = StyleSheet.create({
     padding: 5,
     borderBottomColor: "grey",
     borderBottomWidth: 1,
-    marginBottom: 30,
+    marginBottom: 15,
   },
   input: {
     fontSize: 20,

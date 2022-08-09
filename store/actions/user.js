@@ -14,8 +14,11 @@ import {
   SHARE_DRAWER,
   SET_SHARE,
   SET_ERROR,
+  START_LOADING,
+  END_LOADING,
 } from "../constants/constants";
-import * as api from "../api/api";
+import * as api from "../../api/api";
+import { save } from "../../helpers/secureStore";
 
 //  ========================== Drawer and UI Actions ================
 
@@ -23,8 +26,8 @@ export const addDrawerAction = () => async (dispatch) => {
   dispatch({ type: ADD_DRAWER });
 };
 
-export const editDrawerAction = () => async (dispatch) => {
-  dispatch({ type: EDIT_DRAWER });
+export const editDrawerAction = (id) => async (dispatch) => {
+  dispatch({ type: EDIT_DRAWER, id });
 };
 
 export const currentListDrawerAction = () => async (dispatch) => {
@@ -59,12 +62,14 @@ export const addShareList = (shareId, userName) => async (dispatch) => {
 
 //  ============================= List CRUD Actions =================
 
-export const addList = (formData, navigate) => async (dispatch) => {
+export const addList = (formData) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.addList(formData);
-    const lastIndex = data?.length - 1;
-    const item = data[lastIndex];
-    item && navigate(`/?list=${item._id}`);
+    // const lastIndex = data?.length - 1;
+    // const item = data[lastIndex];
+    // item && navigate(`/?list=${item._id}`);
+    dispatch({ type: END_LOADING });
 
     dispatch({ type: ADD_LIST, data });
     dispatch({ type: CURRENT_LIST, item });
@@ -75,10 +80,11 @@ export const addList = (formData, navigate) => async (dispatch) => {
 
 export const updateList = (formData, currentListId) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     const { data } = await api.updateList(formData);
 
     const currentList = data.find((item) => item._id === currentListId);
-
+    dispatch({ type: END_LOADING });
     dispatch({ type: UPDATE_LIST, data, currentList });
   } catch (error) {
     console.log(error);
@@ -98,18 +104,13 @@ export const deleteList = (formData) => async (dispatch) => {
 export const getList = (navigate) => async (dispatch) => {
   try {
     const { data } = await api.getList();
-
-    //console.log(data);
-
-    // const firstListId = data[0]?._id;
-
-    // firstListId && navigate(`/?list=${firstListId}`);
-
     dispatch({ type: GET_LISTS, data });
   } catch (error) {
+    save("auth", "");
     dispatch({ type: SET_ERROR, error: error.response.data.message });
-
-    console.log(error);
+    if (error.response.data.error.name === "TokenExpiredError") {
+      save("auth", "");
+    }
   }
 };
 

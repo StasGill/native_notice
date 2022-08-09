@@ -1,5 +1,5 @@
 import { AUTH, LOGOUT, SET_ERROR } from "../constants/constants";
-import { save } from "../helpers/localStorage";
+import { save } from "../../helpers/localStorage";
 
 const authReducer = (state = { authData: null, error: "" }, action) => {
   switch (action.type) {

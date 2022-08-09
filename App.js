@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "@redux-devtools/extension";
-import reducers from "./reducers";
+import reducers from "./store/reducers";
 import { NavigationContainer } from "@react-navigation/native";
 import MainStack from "./stack/MainStack";
 

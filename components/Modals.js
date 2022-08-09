@@ -1,82 +1,59 @@
-import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
+import Modal from "react-native-modal";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from "react-native";
+import { Heading } from "./form/Heading";
+import { Icons } from "./tabs/Icons";
+import { useSelector } from "react-redux";
+import { TouchLine } from "./TouchLine";
 
-export const Modals = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+export const Modals = ({ children, title, isOpen, addButton, openDrawer }) => {
+  const { addDrawer, editDrawer } = useSelector((state) => state.user);
+
   return (
-    <View style={styles.centeredView}>
+    <View style={styles.container}>
       <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
+        backdropOpacity={0.1}
+        isVisible={isOpen}
+        onBackdropPress={openDrawer}
+        style={styles.contentView}
+        swipeDirection="down"
+        swipeThreshold={10}
+        onSwipeComplete={openDrawer}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Hello World!</Text>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>Hide Modal</Text>
-            </Pressable>
+        <KeyboardAvoidingView behavior="padding" style={styles.container}>
+          <View style={styles.content}>
+            <TouchLine />
+            <Heading title={title} />
+            {children}
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
+      {addButton && (
+        <TouchableOpacity onPress={openDrawer}>
+          <Icons color={"gray"} type={"Add"} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    // marginBottom: -22,
-  },
-  modalView: {
-    width: "100%",
-    margin: 20,
+  content: {
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
+    padding: 22,
+    justifyContent: "center",
+    alignSelf: "stretch",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    borderTopRightRadius: 17,
+    borderTopLeftRadius: 17,
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
+  contentView: {
+    justifyContent: "flex-end",
+    alignSelf: "stretch",
+    margin: 0,
   },
 });

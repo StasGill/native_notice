@@ -9,29 +9,37 @@ import {
 } from "react-native";
 import { Icons } from "../tabs/Icons";
 
-export const Buttons = ({ title, onPress, isLoading, isDisabled }) => {
-  const [rotateValueHolder] = useState(new Animated.Value(0));
+export const Buttons = ({
+  title,
+  onPress,
+  isLoading,
+  isDisabled,
+  type = "submit",
+}) => {
+  const [rotateValueHolder] = useState({
+    rotateAnimation: new Animated.Value(0),
+  });
 
   const disableCheck = isDisabled && { backgroundColor: "grey" };
 
-  const startImageRotateFunction = () => {
-    Animated.loop(
-      Animated.timing(rotateValueHolder, {
-        toValue: 30,
-        duration: 6000,
-        easing: Easing.linear,
-        useNativeDriver: false,
-      })
-    ).start();
-  };
+  // const startImageRotateFunction = () => {
+  //   Animated.loop(
+  //     Animated.timing(rotateValueHolder.outputRange, {
+  //       toValue: 30,
+  //       duration: 6000,
+  //       easing: Easing.linear,
+  //       useNativeDriver: false,
+  //     })
+  //   ).start();
+  // };
 
-  useEffect(() => {
-    startImageRotateFunction();
-  }, []);
+  // useEffect(() => {
+  //   startImageRotateFunction();
+  // }, []);
 
   return (
     <TouchableOpacity
-      style={{ ...styles.container, ...disableCheck }}
+      style={{ ...styles[type], ...disableCheck }}
       onPress={onPress}
     >
       <Text style={styles.text}>{title}</Text>
@@ -39,7 +47,11 @@ export const Buttons = ({ title, onPress, isLoading, isDisabled }) => {
         <Animated.View
           style={{
             ...styles.loadingIcon,
-            transform: [{ rotate: rotateValueHolder }],
+            // transform: [
+            //   {
+            //     rotate: rotateValueHolder,
+            //   },
+            // ],
           }}
         >
           <Icons color="white" type="Loading" />
@@ -50,9 +62,17 @@ export const Buttons = ({ title, onPress, isLoading, isDisabled }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  submit: {
     width: "80%",
     backgroundColor: "#00A3FF",
+    padding: 15,
+    borderRadius: 13,
+    textAlign: "center",
+    marginBottom: 15,
+  },
+  delete: {
+    width: "80%",
+    backgroundColor: "red",
     padding: 15,
     borderRadius: 13,
     textAlign: "center",

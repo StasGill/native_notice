@@ -1,9 +1,17 @@
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+} from "react-native";
 import { Buttons } from "../components/form/Buttons";
 import { Heading } from "../components/form/Heading";
-import { signup } from "../actions/auth";
+import { signup } from "../store/actions/auth";
 import { useDispatch } from "react-redux";
 import { Inputs } from "../components/form/Inputs";
 import { Icons } from "../components/tabs/Icons";
@@ -26,7 +34,11 @@ export function SignUpScreen() {
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.mainContainer}
+    >
+      <StatusBar animated={true} backgroundColor="#00A3FF" hidden={false} />
       <View style={styles.header}>
         <Text style={styles.logo}>Notice</Text>
         <Icons color="white" type="Logo" />
@@ -70,7 +82,7 @@ export function SignUpScreen() {
           <Text style={styles.link}>Sign In</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -85,7 +97,8 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "white",
-    paddingTop: 40,
+    // paddingTop: 40,
+    justifyContent: "center",
   },
   margin: { marginTop: 100 },
   header: {
@@ -96,7 +109,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignSelf: "center",
-    paddingTop: 40,
+    // paddingTop: 40,
   },
   logo: { color: "white", fontSize: 35, fontWeight: "bold" },
   link: {
